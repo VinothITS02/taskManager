@@ -17,19 +17,17 @@ const Onboarding = ({ navigation }) => {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       {/* StatusBar */}
       <StatusBar
-        barStyle="dark-content"
-        backgroundColor={theme.colors.background}
+        barStyle="light-content"
+        backgroundColor={theme.colors.primary}
       />
-
-      {/* SafeArea just for notch/status bar */}
       <SafeAreaView
-        style={{ backgroundColor: theme.colors.background }}
+        style={{ backgroundColor: theme.colors.primary }}
         edges={["top"]}
       />
 
       {/* Main content */}
       <SafeAreaView
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
+        style={[styles.container, { backgroundColor: theme.colors.background, padding: hp(1.6) }]}
         edges={["left", "right", "bottom"]}
       >
         <Image

@@ -34,12 +34,15 @@ const Login = ({ navigation }) => {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       {/* Status Bar */}
       <StatusBar
-        barStyle="dark-content"
+        barStyle="light-content"
         backgroundColor={theme.colors.primary}
       />
 
       {/* SafeArea for notch/status bar */}
-      <SafeAreaView style={{ backgroundColor: theme.colors.background }} edges={["top"]} />
+      <SafeAreaView
+        style={{ backgroundColor: theme.colors.primary }}
+        edges={["top"]}
+      />
 
       {/* Main Content */}
       <SafeAreaView
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    padding: wp(5),
+    padding: hp(1.6),
   },
   image: {
     width: wp(100),

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { SafeAreaView, Image, StyleSheet, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomText from "../components/CustomText";
-import { useTheme } from "../context/ThemeContext";
+import CustomText from "./components/CustomText"
+import { useTheme } from "./theme/ThemeContext"
 
 const Splash = ({ navigation }) => {
     const { theme } = useTheme();

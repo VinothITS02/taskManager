@@ -9,7 +9,8 @@ import Login from './screens/Login'
 import Home from "./screens/Home"
 import Task from "./screens/Task"
 import Inbox from "./screens/Inbox"
-import Profile from "./screens/Profile"
+import Profile from "./screens/Profile";
+import Splash from './Splash';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   View,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -11,11 +11,12 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import CustomText from "../components/CustomText";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
-import { useTheme } from "../theme/ThemeContext"
+import { useTheme } from "../theme/ThemeContext";
 import {
   responsiveWidth as wp,
   responsiveHeight as hp,
 } from "react-native-responsive-dimensions";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const AddTask = () => {
   const { theme } = useTheme();
@@ -42,97 +43,114 @@ const AddTask = () => {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-    >
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>
-        <CustomText size={theme.fontSizes.lg} weight="700" color={theme.colors.white}>
-          Add Task
-        </CustomText>
-      </View>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      {/* StatusBar */}
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.colors.primary}
+      />
 
-      <View style={styles.form}>
-        {/* Task Name */}
-        <CustomInput
-          placeholder="Task Name"
-          value={taskName}
-          onChangeText={setTaskName}
-        />
+      {/* SafeArea for notch/status bar */}
+      <SafeAreaView
+        style={{ backgroundColor: theme.colors.primary }}
+        edges={["top"]}
+      />
 
-        {/* Date of Start */}
-        <View style={styles.dateInput}>
-          <TouchableOpacity
-            style={styles.dateWrapper}
-            onPress={() => setShowStartPicker(true)}
+      {/* Main Content */}
+      <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
+        {/* Header */}
+        <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>
+          <CustomText
+            size={theme.fontSizes.lg}
+            weight="700"
+            color={theme.colors.white}
           >
-            <CustomText>{startDate.toDateString()}</CustomText>
-            <Icon name="calendar" size={20} color={theme.colors.gray} />
-          </TouchableOpacity>
+            Add Task
+          </CustomText>
         </View>
-        {showStartPicker && (
-          <DateTimePicker
-            value={startDate}
-            mode="date"
-            display="default"
-            onChange={(event, selectedDate) => {
-              setShowStartPicker(false);
-              if (selectedDate) setStartDate(selectedDate);
-            }}
-          />
-        )}
 
-        {/* Date of End */}
-        <View style={styles.dateInput}>
-          <TouchableOpacity
-            style={styles.dateWrapper}
-            onPress={() => setShowEndPicker(true)}
-          >
-            <CustomText>{endDate.toDateString()}</CustomText>
-            <Icon name="calendar" size={20} color={theme.colors.gray} />
-          </TouchableOpacity>
+        <View style={styles.form}>
+          {/* Task Name */}
+          <CustomInput
+            placeholder="Task Name"
+            value={taskName}
+            onChangeText={setTaskName}
+          />
+
+          {/* Date of Start */}
+          <View style={styles.dateInput}>
+            <TouchableOpacity
+              style={styles.dateWrapper}
+              onPress={() => setShowStartPicker(true)}
+            >
+              <CustomText>{startDate.toDateString()}</CustomText>
+              <Icon name="calendar" size={20} color={theme.colors.gray} />
+            </TouchableOpacity>
+          </View>
+          {showStartPicker && (
+            <DateTimePicker
+              value={startDate}
+              mode="date"
+              display="default"
+              onChange={(event, selectedDate) => {
+                setShowStartPicker(false);
+                if (selectedDate) setStartDate(selectedDate);
+              }}
+            />
+          )}
+
+          {/* Date of End */}
+          <View style={styles.dateInput}>
+            <TouchableOpacity
+              style={styles.dateWrapper}
+              onPress={() => setShowEndPicker(true)}
+            >
+              <CustomText>{endDate.toDateString()}</CustomText>
+              <Icon name="calendar" size={20} color={theme.colors.gray} />
+            </TouchableOpacity>
+          </View>
+          {showEndPicker && (
+            <DateTimePicker
+              value={endDate}
+              mode="date"
+              display="default"
+              onChange={(event, selectedDate) => {
+                setShowEndPicker(false);
+                if (selectedDate) setEndDate(selectedDate);
+              }}
+            />
+          )}
+
+          {/* Overview */}
+          <CustomInput
+            placeholder="Overview"
+            value={overview}
+            onChangeText={setOverview}
+          />
+
+          {/* Assign To */}
+          <CustomInput
+            placeholder="Assign to"
+            value={assignTo}
+            onChangeText={setAssignTo}
+          />
+
+          {/* Comment */}
+          <CustomInput
+            placeholder="Comment"
+            value={comment}
+            onChangeText={setComment}
+          />
+
+          {/* Submit Button */}
+          <CustomButton
+            title="Create a task"
+            onPress={handleSubmit}
+            style={{ marginTop: hp(2) }}
+          />
         </View>
-        {showEndPicker && (
-          <DateTimePicker
-            value={endDate}
-            mode="date"
-            display="default"
-            onChange={(event, selectedDate) => {
-              setShowEndPicker(false);
-              if (selectedDate) setEndDate(selectedDate);
-            }}
-          />
-        )}
-
-        {/* Overview */}
-        <CustomInput
-          placeholder="Overview"
-          value={overview}
-          onChangeText={setOverview}
-        />
-
-        {/* Assign To */}
-        <CustomInput
-          placeholder="Assign to"
-          value={assignTo}
-          onChangeText={setAssignTo}
-        />
-
-        {/* Comment */}
-        <CustomInput
-          placeholder="Comment"
-          value={comment}
-          onChangeText={setComment}
-        />
-
-        {/* Submit Button */}
-        <CustomButton
-          title="Create a task"
-          onPress={handleSubmit}
-          style={{ marginTop: hp(2) }}
-        />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 };
 

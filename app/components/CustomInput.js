@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
 import { useTheme } from "../theme/ThemeContext"
+import { responsiveHeight as hp } from "react-native-responsive-dimensions";
 
 const CustomInput = ({
   placeholder,
@@ -71,6 +72,7 @@ const styles = (theme) =>
       fontSize: theme.fontSizes.md,
       paddingVertical: theme.spacing.sm,
       color: theme.colors.text,
+      height: hp(6)
     },
     rightIcon: {
       marginLeft: theme.spacing.sm,

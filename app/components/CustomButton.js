@@ -31,7 +31,7 @@ const CustomButton = ({
           styles.buttonText,
           {
             color: textColor || theme.colors.white,
-            fontSize: theme.fontSizes.md,
+            fontSize: theme.fontSizes.lg,
           },
           textStyle,
         ]}

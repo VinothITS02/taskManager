@@ -11,6 +11,8 @@ import Task from "./screens/Task"
 import Inbox from "./screens/Inbox"
 import Profile from "./screens/Profile";
 import Splash from './Splash';
+import AddTask from './screens/AddTask';
+import Signup from './screens/Signup';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -74,6 +76,8 @@ const AppNavigator = () => {
       <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="MainTabs" component={BottomTabs} />
+      <Stack.Screen name="AddTask" component={AddTask} />
+      <Stack.Screen name="Signup" component={Signup} />
     </Stack.Navigator>
   );
 };

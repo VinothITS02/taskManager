@@ -16,7 +16,7 @@ import {
 import AppHeader from "../components/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const { theme } = useTheme();
 
   return (
@@ -52,7 +52,7 @@ const Home = () => {
           >
             <CustomText weight="600">Today Task Summary</CustomText>
             <CustomText size={theme.fontSizes.sm}>Progress 85%</CustomText>
-            <TouchableOpacity style={styles.addBtn}>
+            <TouchableOpacity style={styles.addBtn} onPress={() => navigation.navigate("AddTask")}>
               <Icon name="plus" size={20} color={theme.colors.white} />
             </TouchableOpacity>
           </View>

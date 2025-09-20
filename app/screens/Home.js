@@ -37,11 +37,7 @@ const Home = ({ navigation }) => {
       <SafeAreaView style={{ flex: 1 }} edges={["left", "right", "bottom"]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Header */}
-          <AppHeader
-            title="Good morning John"
-            subtitle="4 Tasks remaining"
-            profileImg="https://randomuser.me/api/portraits/women/44.jpg"
-          />
+          <AppHeader />
 
           {/* Today Task Summary */}
           <View

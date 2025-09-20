@@ -20,11 +20,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ShowToastMessage } from '../components/ShowToastMessage';
 import { postAPI } from "../utils/apis";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../redux/authSlice";
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { theme } = useTheme();
+  const dispath = useDispatch();
 
   const handleLogin = async () => {
     try {
@@ -41,7 +44,8 @@ const Login = ({ navigation }) => {
           ShowToastMessage(res?.message)
         }
         else {
-          ShowToastMessage(res?.message, "success")
+          ShowToastMessage(res?.message, "success");
+          dispath(setCredentials({user:res.data,token:"VINOtafadsdf"}))
           await AsyncStorage.setItem("userToken", "dummy-token");
           navigation.replace("MainTabs");
         }

@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/Feather";
 import CustomText from "./CustomText";
 import { useTheme } from "../theme/ThemeContext"
 import { responsiveWidth as wp } from "react-native-responsive-dimensions";
+import { useSelector } from "react-redux";
 
 const AppHeader = ({
     title,
@@ -11,19 +12,18 @@ const AppHeader = ({
     profileImg,
     onBellPress
 }) => {
+    const { user } = useSelector((state) => state.auth)
     const { theme } = useTheme();
 
     return (
         <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>
             {/* Profile Picture */}
-            {profileImg && (
-                <Image source={{ uri: profileImg }} style={styles.profileImg} />
-            )}
+            <Image source={{ uri: `data:image/jpeg;base64,${user.photoURL}` }} style={styles.profileImg} />
 
             {/* Title + Subtitle */}
             <View style={{ flex: 1, marginLeft: wp(3) }}>
                 <CustomText size={theme.fontSizes.md} weight="700" color={theme.colors.white}>
-                    {title}
+                    {user.emailId}
                 </CustomText>
                 {subtitle && (
                     <CustomText size={theme.fontSizes.sm} color={theme.colors.white}>

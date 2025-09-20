@@ -18,6 +18,8 @@ import {
 } from "react-native-responsive-dimensions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ShowToastMessage } from '../components/ShowToastMessage';
+import { postAPI } from "../utils/apis";
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -25,9 +27,29 @@ const Login = ({ navigation }) => {
   const { theme } = useTheme();
 
   const handleLogin = async () => {
-    // ✅ Replace with real auth logic
-    await AsyncStorage.setItem("userToken", "dummy-token");
-    navigation.replace("MainTabs");
+    try {
+      if (!username) ShowToastMessage("Please enter username");
+      else if (!password) ShowToastMessage("Please enter the password")
+      else {
+        const body = {
+          emailId: username,
+          password
+        }
+        const res = await postAPI("login", body);
+        console.log(res)
+        if (!res?.success) {
+          ShowToastMessage(res?.message)
+        }
+        else {
+          ShowToastMessage(res?.message, "success")
+          // await AsyncStorage.setItem("userToken", "dummy-token");
+          navigation.replace("MainTabs");
+        }
+
+      }
+    } catch (err) {
+      ShowToastMessage("Something went wrong!", err)
+    }
   };
 
   return (

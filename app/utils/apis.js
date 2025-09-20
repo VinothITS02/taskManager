@@ -7,16 +7,20 @@ export const fetchAPI = async (url) => {
 };
 
 export async function postAPI(path, body, opts = {}) {
-    const isFormData = opts.isFormData;
-    const headers = isFormData
-        ? {} // let RN set 'Content-Type' with boundary
-        : { "Content-Type": "application/json" };
+    try {
+        const isFormData = opts.isFormData;
+        const headers = isFormData
+            ? {} // let RN set 'Content-Type' with boundary
+            : { "Content-Type": "application/json" };
 
-    const res = await fetch(`${base_url}/${path}`, {
-        method: "POST",
-        headers,
-        body: isFormData ? body : JSON.stringify(body),
-    });
+        const res = await fetch(`${base_url}/${path}`, {
+            method: "POST",
+            headers,
+            body: isFormData ? body : JSON.stringify(body),
+        });
 
-    return res.json();
+        return res.json();
+    } catch (err) {
+        console.log("ffgfggfggfgfghgfh")
+    }
 }

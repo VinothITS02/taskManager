@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
         }
         else {
           ShowToastMessage(res?.message, "success")
-          // await AsyncStorage.setItem("userToken", "dummy-token");
+          await AsyncStorage.setItem("userToken", "dummy-token");
           navigation.replace("MainTabs");
         }
 

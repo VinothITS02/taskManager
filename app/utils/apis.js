@@ -18,9 +18,8 @@ export async function postAPI(path, body, opts = {}) {
             headers,
             body: isFormData ? body : JSON.stringify(body),
         });
-
         return res.json();
     } catch (err) {
-        console.log("ffgfggfggfgfghgfh")
+        console.log("Something went wrong while post api call")
     }
 }

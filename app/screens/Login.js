@@ -18,71 +18,60 @@ import {
 } from "react-native-responsive-dimensions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ShowToastMessage } from '../components/ShowToastMessage';
+import { ShowToastMessage } from "../components/ShowToastMessage";
 import { postAPI } from "../utils/apis";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/authSlice";
+import CommonLoader from "../components/CommonLoader";
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("Test@gmail.com");
+  const [password, setPassword] = useState("test@12345");
+  const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
-      if (!username) ShowToastMessage("Please enter username");
-      else if (!password) ShowToastMessage("Please enter the password")
-      else {
-        const body = {
-          emailId: username,
-          password
-        }
-        const res = await postAPI("login", body);
-        console.log(res)
-        if (!res?.success) {
-          ShowToastMessage(res?.message)
-        }
-        else {
-          ShowToastMessage(res?.message, "success");
-          dispath(setCredentials({user:res.data,token:"VINOtafadsdf"}))
-          await AsyncStorage.setItem("userToken", "dummy-token");
-          navigation.replace("MainTabs");
-        }
+      if (!username) return ShowToastMessage("Please enter username");
+      if (!password) return ShowToastMessage("Please enter the password");
 
+      const body = { emailId: username, password };
+
+      setLoading(true);
+      console.log("🔄 Loader should be visible now");
+      const res = await postAPI("login", body);
+      setLoading(false);
+
+      if (!res?.success) {
+        ShowToastMessage(res?.message);
+      } else {
+        ShowToastMessage(res?.message, "success");
+        dispatch(setCredentials({ user: res.data, token: "dummy-token" }));
+        await AsyncStorage.setItem("userToken", "dummy-token");
+        navigation.replace("MainTabs");
       }
     } catch (err) {
-      ShowToastMessage("Something went wrong!", err)
+      setLoading(false);
+      ShowToastMessage("Something went wrong!", err?.message);
     }
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      {/* Status Bar */}
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={theme.colors.primary}
-      />
+      <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
+      <SafeAreaView style={{ backgroundColor: theme.colors.primary }} edges={["top"]} />
 
-      {/* SafeArea for notch/status bar */}
-      <SafeAreaView
-        style={{ backgroundColor: theme.colors.primary }}
-        edges={["top"]}
-      />
-
-      {/* Main Content */}
       <SafeAreaView
         style={[styles.container, { backgroundColor: theme.colors.background }]}
         edges={["left", "right", "bottom"]}
       >
-        {/* Top Image */}
         <Image
           source={require("../image/login_img.png")}
           style={styles.image}
           resizeMode="contain"
         />
 
-        {/* Welcome Text */}
         <CustomText size={responsiveFontSize(2.8)} weight="700" align="center">
           Hello,
         </CustomText>
@@ -90,7 +79,6 @@ const Login = ({ navigation }) => {
           Welcome back again
         </CustomText>
 
-        {/* Inputs */}
         <View style={styles.inputContainer}>
           <CustomInput
             placeholder="Username"
@@ -107,17 +95,14 @@ const Login = ({ navigation }) => {
           />
         </View>
 
-        {/* Forgot Password */}
         <TouchableOpacity style={styles.forgotPassword}>
           <CustomText size={responsiveFontSize(1.6)} color={theme.colors.gray}>
             Forget Password?
           </CustomText>
         </TouchableOpacity>
 
-        {/* Sign In Button */}
         <CustomButton title="Sign in" onPress={handleLogin} />
 
-        {/* Or Continue With */}
         <CustomText
           size={responsiveFontSize(1.8)}
           color={theme.colors.gray}
@@ -126,44 +111,23 @@ const Login = ({ navigation }) => {
           or continue with
         </CustomText>
 
-        {/* Social Icons */}
         <View style={styles.socialContainer}>
           <TouchableOpacity>
-            <Icon
-              name="google"
-              size={responsiveFontSize(4)}
-              color={theme.colors.danger}
-              style={styles.socialIcon}
-            />
+            <Icon name="google" size={responsiveFontSize(4)} color={theme.colors.danger} style={styles.socialIcon} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Icon
-              name="apple"
-              size={responsiveFontSize(4)}
-              color={theme.colors.text}
-              style={styles.socialIcon}
-            />
+            <Icon name="apple" size={responsiveFontSize(4)} color={theme.colors.text} style={styles.socialIcon} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Icon
-              name="facebook"
-              size={responsiveFontSize(4)}
-              color={theme.colors.secondary}
-              style={styles.socialIcon}
-            />
+            <Icon name="facebook" size={responsiveFontSize(4)} color={theme.colors.secondary} style={styles.socialIcon} />
           </TouchableOpacity>
         </View>
 
-        {/* Sign Up Link */}
         <TouchableOpacity
           style={styles.signupContainer}
           onPress={() => navigation.navigate("Signup")}
         >
-          <CustomText
-            size={responsiveFontSize(1.8)}
-            color={theme.colors.gray}
-            align="center"
-          >
+          <CustomText size={responsiveFontSize(1.8)} color={theme.colors.gray} align="center">
             Don’t have an account?{" "}
             <CustomText color={theme.colors.primary} weight="600">
               Sign up
@@ -171,6 +135,9 @@ const Login = ({ navigation }) => {
           </CustomText>
         </TouchableOpacity>
       </SafeAreaView>
+
+      {/* ✅ Loader should be placed outside SafeAreaView */}
+      <CommonLoader visible={loading} />
     </View>
   );
 };
